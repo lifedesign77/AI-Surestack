@@ -1,0 +1,125 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "staff"] },
+        "email": { "type": "string", "format": "email" }
+      },
+      "required": ["id", "name", "role", "email"]
+    },
+    "CustomerInfo": {
+      "title": "CustomerInfo",
+      "description": "Customer information",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "kana": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "preferredContact": { "type": "string" },
+        "repName": { "type": "string" },
+        "contactPhone": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "kana", "phone", "email"]
+    },
+    "VehicleInfo": {
+      "title": "VehicleInfo",
+      "description": "Vehicle details",
+      "type": "object",
+      "properties": {
+        "make": { "type": "string" },
+        "model": { "type": "string" },
+        "year": { "type": "string" },
+        "mileage": { "type": "string" },
+        "color": { "type": "string" },
+        "inspectionDate": { "type": "string" },
+        "chassisNumber": { "type": "string" },
+        "plateStatus": { "type": "string" },
+        "registrationNumber": { "type": "string" },
+        "conditionNotes": { "type": "string" },
+        "images": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "SlipData": {
+      "title": "SlipData",
+      "description": "Slip and operational information",
+      "type": "object",
+      "properties": {
+        "receptionName": { "type": "string" },
+        "salesRep": { "type": "string" },
+        "stockNumber": { "type": "string" },
+        "stockDate": { "type": "string" },
+        "pickupRep": { "type": "string" },
+        "receptionDate": { "type": "string" },
+        "orderDate": { "type": "string" },
+        "scheduledDate": { "type": "string" },
+        "pickupMethod": { "type": "string" },
+        "pickupLocation": { "type": "string" },
+        "contactTiming": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "CommunicationHistory": {
+      "title": "CommunicationHistory",
+      "description": "History of communication",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "method": { "type": "string" },
+        "date": { "type": "string" },
+        "content": { "type": "string" },
+        "agent": { "type": "string" }
+      },
+      "required": ["id", "type", "method", "date", "content", "agent"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Main inquiry record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customer": { "$ref": "#/entities/CustomerInfo" },
+        "vehicle": { "$ref": "#/entities/VehicleInfo" },
+        "slip": { "$ref": "#/entities/SlipData" },
+        "channel": { "type": "string" },
+        "subject": { "type": "string" },
+        "content": { "type": "string" },
+        "lastMessage": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "status": { "type": "string" },
+        "adminNotes": { "type": "string" },
+        "handoverNote": { "type": "string" },
+        "history": { "type": "array", "items": { "$ref": "#/entities/CommunicationHistory" } },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "lockedBy": { "type": "string" },
+        "lockedAt": { "type": "number" }
+      },
+      "required": ["id", "customerId", "customer", "channel", "subject", "content", "lastMessage", "timestamp", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "#/entities/User",
+      "description": "System users"
+    },
+    "customers/{customerId}": {
+      "schema": "#/entities/CustomerInfo",
+      "description": "Customer records"
+    },
+    "inquiries/{inquiryId}": {
+      "schema": "#/entities/Inquiry",
+      "description": "Inquiry records"
+    }
+  }
+}
